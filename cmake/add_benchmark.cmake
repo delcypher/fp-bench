@@ -29,6 +29,8 @@ macro(add_benchmark BENCHMARK_DIR)
   endforeach()
   if (("${INPUT_FILE}" IS_NEWER_THAN "${OUTPUT_FILE}") OR ${_should_force_regen})
     message(STATUS "Generating \"${OUTPUT_FILE}\"")
+    get_filename_component(OUTPUT_DIR "${OUTPUT_FILE}" DIRECTORY)
+    file(MAKE_DIRECTORY ${OUTPUT_DIR})
     execute_process(COMMAND ${PYTHON_EXECUTABLE} "${SVCB_DIR}/tools/svcb-emit-cmake-decls.py"
                             ${INPUT_FILE}
                             --architecture ${SVCOMP_ARCHITECTURE}
