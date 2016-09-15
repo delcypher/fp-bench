@@ -57,7 +57,7 @@ $ make
 ```
 
 where `<KLEE_RUNTIME_LIB_DIR>` is the directory containing `libkleeRuntest.so` and `<KLEE_RUNTIME_INCLUDE_DIR>` is the
-directory containing `include/klee.h`. You can get and build KLEE from [GitHub](https://github.com/klee/klee).
+directory containing `klee/klee.h`. You can get and build KLEE from [GitHub](https://github.com/klee/klee).
 
 Note by default it is enforced that the KLEE runtime be available because the majority of the benchmarks will require it.
 However you can change this by passing `-DKLEE_NATIVE_RUNTIME_REQUIRED=FALSE` when invoking CMake. Doing this will cause
