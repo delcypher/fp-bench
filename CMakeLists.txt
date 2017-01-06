@@ -190,6 +190,7 @@ if (BUILD_WITH_PROFILING)
   message(STATUS "Profiling enabled")
   set(PROFILING_FLAGS
     "--coverage"
+		"-I${CMAKE_SOURCE_DIR}/overrides/include"
   )
   foreach (f ${PROFILING_FLAGS})
     SVCOMP_SANITIZE_FLAG_NAME(sanitized_name "${f}")
