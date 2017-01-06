@@ -190,7 +190,6 @@ if (BUILD_WITH_PROFILING)
   message(STATUS "Profiling enabled")
   set(PROFILING_FLAGS
     "--coverage"
-    # TODO: Use -fprofile-dir ?
   )
   foreach (f ${PROFILING_FLAGS})
     SVCOMP_SANITIZE_FLAG_NAME(sanitized_name "${f}")

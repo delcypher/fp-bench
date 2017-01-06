@@ -41,6 +41,7 @@ def main(args):
                       default=[],
                       nargs='+',
                       help='Additional dependency handlers to load')
+  parser.add_argument('--coverage', action="store_true")
 
 
   pArgs = parser.parse_args()
@@ -78,7 +79,8 @@ def main(args):
   cmakeDeclStr = svcb.build.generateCMakeDecls(benchmarkObjs,
                                                sourceRootDir=sourceFileDirectory,
                                                supportedArchitecture=pArgs.architecture,
-                                               dependencyDispatcher=dispatcher)
+                                               dependencyDispatcher=dispatcher,
+                                               coverage=pArgs.coverage)
   pArgs.output.write(cmakeDeclStr)
   return 0
 

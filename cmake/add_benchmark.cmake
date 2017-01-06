@@ -62,13 +62,24 @@ macro(add_benchmark BENCHMARK_DIR)
       endforeach()
     endif()
 
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} "${SVCB_DIR}/tools/svcb-emit-cmake-decls.py"
-                            ${INPUT_FILE}
-                            --architecture ${SVCOMP_ARCHITECTURE}
-                            --output ${OUTPUT_FILE}
-                            ${_handler_args}
-                    RESULT_VARIABLE RESULT_CODE
-                   )
+    if (BUILD_WITH_PROFILING)
+      execute_process(COMMAND ${PYTHON_EXECUTABLE} "${SVCB_DIR}/tools/svcb-emit-cmake-decls.py"
+                              ${INPUT_FILE}
+                              --architecture ${SVCOMP_ARCHITECTURE}
+                              --output ${OUTPUT_FILE}
+                              --coverage
+                              ${_handler_args}
+                      RESULT_VARIABLE RESULT_CODE
+                     )
+		else()
+      execute_process(COMMAND ${PYTHON_EXECUTABLE} "${SVCB_DIR}/tools/svcb-emit-cmake-decls.py"
+                              ${INPUT_FILE}
+                              --architecture ${SVCOMP_ARCHITECTURE}
+                              --output ${OUTPUT_FILE}
+                              ${_handler_args}
+                      RESULT_VARIABLE RESULT_CODE
+                     )
+		endif()
     if (NOT ${RESULT_CODE} EQUAL 0)
       # Remove the generated output file because it is broken and if we don't
       # the next time configure runs it will succeed.

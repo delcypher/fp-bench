@@ -159,7 +159,7 @@ class CMakeDependencyDispatcher(object):
     return result
 
 cmakeIndent = "  "
-def generateCMakeDecls(benchmarkObjs, sourceRootDir, supportedArchitecture, dependencyDispatcher):
+def generateCMakeDecls(benchmarkObjs, sourceRootDir, supportedArchitecture, dependencyDispatcher, coverage):
   """
     Returns a string containing CMake declarations
     that declare the benchmarks in the list ``benchmarkObjs``.
@@ -252,12 +252,19 @@ endif()
             declStr += "  {}\n".format(macroName)
         declStr += ")\n"
       # Emit compiler flags
-      declStr += "{indent}target_compile_options({target_name} PRIVATE ${{SVCOMP_STD_{lang_ver}}})\n".format(
-        indent=cmakeIndent,
-        target_name=targetName,
-        lang_ver= lang_ver,
-        arch = arch.upper()
-      )
+      if coverage:
+        declStr += "{indent}target_compile_options({target_name} PRIVATE ${{SVCOMP_STD_{lang_ver}}} \"-fprofile-dir={profile_dir}.cov\")\n".format(
+          indent = cmakeIndent,
+          target_name = targetName,
+          lang_ver = lang_ver,
+          profile_dir = targetName
+        )
+      else:
+        declStr += "{indent}target_compile_options({target_name} PRIVATE ${{SVCOMP_STD_{lang_ver}}})\n".format(
+          indent = cmakeIndent,
+          target_name = targetName,
+          lang_ver = lang_ver
+        )
 
       # Emit dependency code that adds necessary dependencies to that target
       for (_, depAddDecl) in dependencyHandlingCMakeDecls:
