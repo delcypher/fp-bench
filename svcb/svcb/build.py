@@ -258,7 +258,7 @@ endif()
         lang_ver = lang_ver
       )
       if coverage:
-        declStr +=  " \"-fprofile-dir={profile_dir}.cov\"".format(
+        declStr +=  " \"-fprofile-dir={profile_dir}.cov\"".format(profile_dir = targetName)
       declStr += ")\n"
 
       # Emit dependency code that adds necessary dependencies to that target
