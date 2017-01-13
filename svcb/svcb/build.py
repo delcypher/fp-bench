@@ -252,19 +252,14 @@ endif()
             declStr += "  {}\n".format(macroName)
         declStr += ")\n"
       # Emit compiler flags
+      declStr += "{indent}target_compile_options({target_name} PRIVATE ${{SVCOMP_STD_{lang_ver}}}".format(
+        indent = cmakeIndent,
+        target_name = targetName,
+        lang_ver = lang_ver
+      )
       if coverage:
-        declStr += "{indent}target_compile_options({target_name} PRIVATE ${{SVCOMP_STD_{lang_ver}}} \"-fprofile-dir={profile_dir}.cov\")\n".format(
-          indent = cmakeIndent,
-          target_name = targetName,
-          lang_ver = lang_ver,
-          profile_dir = targetName
-        )
-      else:
-        declStr += "{indent}target_compile_options({target_name} PRIVATE ${{SVCOMP_STD_{lang_ver}}})\n".format(
-          indent = cmakeIndent,
-          target_name = targetName,
-          lang_ver = lang_ver
-        )
+        declStr +=  " \"-fprofile-dir={profile_dir}.cov\"".format(
+      declStr += ")\n"
 
       # Emit dependency code that adds necessary dependencies to that target
       for (_, depAddDecl) in dependencyHandlingCMakeDecls:
